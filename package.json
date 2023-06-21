@@ -1,7 +1,7 @@
 {
   "name": "ts-ai-agent",
-  "version": "0.0.3",
-  "description": "A TypeScript library for constructing and utilizing AI agents with OpenAI's API, enabling the chaining of multiple requests and responses, and generating runtime type information for the 'function_call' feature.",
+  "version": "0.0.4",
+  "description": "A TypeScript library for constructing and utilizing AI agents with OpenAI's API, enabling the chaining of multiple requests and responses using RxJS, and generating runtime type information for the 'function_call' feature.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist.esm/index.js",

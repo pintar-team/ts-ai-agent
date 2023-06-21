@@ -1,14 +1,24 @@
 # AI Agent
-The AI Agent is a TypeScript library for constructing and utilizing AI agents with OpenAI's API. This library lets you chain multiple requests and responses into a single request and utilize TypeScript's RTTI (Run-time Type Information) to generate type information for the 'function_call' feature of the OpenAI API.
+AI Agent is a TypeScript library designed to leverage OpenAI's API, enabling developers to create and manage AI agents. With this library, you can seamlessly chain multiple requests and responses into a single API call. The most powerful feature of AI Agent is its ability to generate runtime type information (RTTI) for the 'function_call' feature of OpenAI's API, all thanks to TypeScript's RTTI.
+
+
 
 [NPM](https://npmjs.com/package/ts-ai-agent) |
 [Github](https://github.com/pintar-team/ts-ai-agent)
 
+The library heavily relies on the RxJS library, allowing users to take advantage of its powerful features such as observables and operators to chain and manage responses from multiple agents, creating complex workflows and pipelines with ease.
+
 # Function calling
-In an API call, you can define functions for the models gpt-3.5-turbo-0613 and gpt-4-0613 and the model intelligently generates a JSON object containing arguments for those functions. This allows you to use the generated JSON to call those functions in your code.
 
-Note: These models are fine-tuned to detect when a function should be called based on the input and respond with JSON that adheres to the function signature. Given the potential risks, we recommend building in user confirmation flows before taking world-impacting actions on behalf of users (e.g., sending emails, posting online, making purchases, etc.).
+AI Agent introduces an innovative approach to working with API calls. You can define functions for the AI models (gpt-3.5-turbo-0613 and gpt-4-0613) and have the model intelligently generate a JSON object containing the required arguments for those functions. You can then utilize the generated JSON to invoke those functions in your codebase.
 
+The beauty of this approach is that these models have been fine-tuned to intelligently detect when a function should be called based on the input and respond with JSON that matches the function signature. This opens up new possibilities for creating more dynamic and responsive applications with AI at their core.
+
+However, with the increased potential also come risks. As the models are capable of making decisions that can have real-world impacts (such as sending an email, posting something online, or making a purchase), we strongly recommend implementing user confirmation flows before carrying out such operations.
+
+The AI Agent library has been created to make it easier and more efficient for developers to utilize these new features, with TypeScript's RTTI being central to this. The generated RTTI enables developers to create more robust and reliable code when working with the 'function_call' feature.
+
+Explore AI Agent and see how it can enhance your OpenAI API experience.
 # Setup
 
 ## Prerequisites
@@ -18,9 +28,8 @@ Note: These models are fine-tuned to detect when a function should be called bas
 # Installation
 Install the necessary packages:
 ```
-npm install typescript-rtti reflect-metadata
+npm install typescript-rtti reflect-metadata rxjs ts-ai-agent
 npm install ttypescript -D
-npm install ts-ai-agent
 ```
 
 Set up tsconfig.json to use the transformer:

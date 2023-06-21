@@ -7,16 +7,23 @@ import {
   ChatCompletionRequestMessageFunctionCall,
   OpenAIApi,
 } from "openai";
+
 import { ReflectedTypeRef, ReflectedArrayRef, ReflectedEnumRef, reflect, ReflectedObjectRef } from "typescript-rtti";
 
 //import rxjs
 import { Observable } from "rxjs";
 
+/**
+ * Enum containing the available OpenAI models.
+ */
 export enum Models {
   GPT_3_5_TURBO = "gpt-3.5-turbo-0613", //0613 has function call api
   GPT_4 = "gpt-4-0613", //0613 has function call api
 }
 
+/**
+ * Represents the options that can be passed to an instance of the `Agent` class.
+ */
 export class AgentOptions {
   model: string = Models.GPT_3_5_TURBO; 
   temperature: number = 0.8;
@@ -129,13 +136,18 @@ export class AgentOptions {
   }
 }
 
-
+/**
+ * Represents the result of a function call executed by an AI agent.
+ */
 export class AgentFunctionResult implements ChatCompletionRequestMessageFunctionCall {
   name?: string;
   arguments?: string;
 }
 
-//AgentMessage class
+
+/**
+ * Represents a message sent to an AI agent for completion.
+ */
 export class AgentMessage implements ChatCompletionRequestMessage {
   role: ChatCompletionRequestMessageRoleEnum =
     ChatCompletionRequestMessageRoleEnum.System;
@@ -396,6 +408,12 @@ export class AgentPrompt {
     return this;
   }
 
+  /**
+   * Adds the result of an agent function call to the agent prompt.
+   * 
+   * @param result - The result of the agent function call.
+   * @returns The `AgentPrompt` instance with the added function result message.
+   */
   public addAgentFunctionResult(result: AgentFunctionResult) {
     this.addMessage({
       "role": ChatCompletionRequestMessageRoleEnum.Assistant,
@@ -404,7 +422,13 @@ export class AgentPrompt {
     return this;
   }
 
-
+  /**
+   * Adds a function message to the agent prompt.
+   * 
+   * @param name - The name of the function.
+   * @param message - The message to be added to the prompt.
+   * @returns The `AgentPrompt` instance with the added function message.
+   */
   public addFunctionMessage(name: string, message: string): AgentPrompt {
     this.addMessage({
       "role": ChatCompletionRequestMessageRoleEnum.Function,
