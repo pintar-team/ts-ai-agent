@@ -10,8 +10,7 @@
   },
   "scripts": {
     "build": "ttsc -b",
-    "docs": "typedoc",
-    "prepublishOnly": "npm test"
+    "docs": "typedoc"
   },
   "keywords": [
     "ai",
