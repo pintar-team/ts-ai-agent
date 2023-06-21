@@ -1,30 +1,29 @@
+# AI Agent
+The AI Agent is a TypeScript library for constructing and utilizing AI agents with OpenAI's API. This library lets you chain multiple requests and responses into a single request and utilize TypeScript's RTTI (Run-time Type Information) to generate type information for the 'function_call' feature of the OpenAI API.
 
 [NPM](https://npmjs.com/package/ts-ai-agent) |
 [Github](https://github.com/pintar-team/ts-ai-agent)
 
-# AI Agent
+# Function calling
+In an API call, you can define functions for the models gpt-3.5-turbo-0613 and gpt-4-0613 and the model intelligently generates a JSON object containing arguments for those functions. This allows you to use the generated JSON to call those functions in your code.
 
-Typescript library for creating AI agents for OpenAI's artificial intelligence API.
-
-Allows to chain multiple requests and responses into a single request.
-
-Uses TypeScript RTTI to generate type information 'function_call' OpenAI API feature.
+Note: These models are fine-tuned to detect when a function should be called based on the input and respond with JSON that adheres to the function signature. Given the potential risks, we recommend building in user confirmation flows before taking world-impacting actions on behalf of users (e.g., sending emails, posting online, making purchases, etc.).
 
 # Setup
 
-Prerequisites
-- Typescript 4.8 - 5.1
-- Node.js v14 or newer (when using Node.js)
+## Prerequisites
+- TypeScript 4.8 - 5.1
+- Node.js v14 or newer
 
-Installation
-
+# Installation
+Install the necessary packages:
 ```
 npm install typescript-rtti reflect-metadata
 npm install ttypescript -D
 npm install ts-ai-agent
 ```
 
-Setting up `tsconfig.json`
+Set up tsconfig.json to use the transformer:
 ```jsonc
 // tsconfig.json
 "compilerOptions": {
@@ -32,7 +31,7 @@ Setting up `tsconfig.json`
 }
 ```
 
-In order for the transformer to run during your build process, you must use `ttsc` instead of `tsc` (or use one of the case specific solutions below).
+Update your build script in package.json to use ttsc instead of tsc:
 
 ```jsonc
 // package.json
@@ -43,9 +42,7 @@ In order for the transformer to run during your build process, you must use `tts
 }
 ```
 
-The type information is emitted using `reflect-metadata`. You'll need to import it as early in your application as
-possible and ensure that it is imported only once.
-
+Lastly, import reflect-metadata and Agent at the start of your application:
 ```typescript
 import "reflect-metadata";
 import { Agent } from "ts-ai-agent";
@@ -56,8 +53,10 @@ You can also use ts-node, just pass `-C ttypescript` to make sure ts-node uses t
 
 # Usage
 
-## Simple example:
+Here are examples showcasing the AI Agent's capabilities.
 
+## Simple example:
+This simple example involves an AI agent tasked with generating and explaining a sentence about the moon and bacteria. It also includes error handling for each step.
 ```typescript
 
 import "reflect-metadata";
@@ -117,7 +116,7 @@ async function test() {
 
 
 ## Example with a function call
-
+In this example, the AI agent is tasked with selecting truthful records from a given list.
 ```typescript
 
 import "reflect-metadata";

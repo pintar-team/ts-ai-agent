@@ -1,7 +1,7 @@
 {
   "name": "ts-ai-agent",
-  "version": "0.0.2",
-  "description": "TypeScript OpenAI RxJS Agent",
+  "version": "0.0.3",
+  "description": "A TypeScript library for constructing and utilizing AI agents with OpenAI's API, enabling the chaining of multiple requests and responses, and generating runtime type information for the 'function_call' feature.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist.esm/index.js",
@@ -13,12 +13,18 @@
     "docs": "typedoc"
   },
   "keywords": [
-    "ai",
     "openai",
-    "rxjs",
-    "reflection",
+    "ai",
+    "agent",
     "typescript",
-    "rtti"
+    "artificial-intelligence",
+    "machine-learning",
+    "api",
+    "ts-rtti",
+    "runtime-type-information",
+    "function-call",
+    "gpt-3.5-turbo-0613",
+    "gpt-4-0613"
   ],
   "dependencies": {
     "openai": "^3.2.1",
