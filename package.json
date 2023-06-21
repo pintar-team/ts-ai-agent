@@ -1,0 +1,35 @@
+{
+  "name": "ts-ai-agent",
+  "version": "0.0.1",
+  "description": "TypeScript OpenAI RxJS Agent",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist.esm/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "ttsc -b",
+    "docs": "typedoc",
+    "prepublishOnly": "npm test"
+  },
+  "keywords": [
+    "ai",
+    "openai",
+    "rxjs",
+    "reflection",
+    "typescript",
+    "rtti"
+  ],
+  "dependencies": {
+    "openai": "^3.2.1",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.1",
+    "typescript-rtti": "^0.8.3"
+  },
+  "devDependencies": {
+    "ttypescript": "^1.5.15"
+  },
+  "author": "x0rb0t",
+  "license": "MIT"
+}
