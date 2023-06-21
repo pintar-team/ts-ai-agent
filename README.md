@@ -72,7 +72,7 @@ import { Agent, AgentPrompt, AgentOptions, AgentInterruptException, AgentRequest
 class TaskAgent extends Agent {
   static PROMPT:string = 'Agent: Perform a given task';
   constructor(api: OpenAIApi, options: AgentOptions = AgentOptions.DEFAULT) {
-    super(api, AgentPrompt.fromString(SimpleTaskAgent.PROMPT), options);
+    super(api, AgentPrompt.fromString(TaskAgent.PROMPT), options);
   }
 }
   
@@ -81,7 +81,7 @@ async function test() {
   const api = new OpenAIApi(new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   }));
-  const agent = new SimpleTaskAgent(api, AgentOptions.DEFAULT);
+  const agent = new TaskAgent(api, AgentOptions.DEFAULT);
   try {
     const pipe = AgentRequestBuilder.create<string>(agent).n(2).request('Write a sentence about the moon and bacteria')
       .pipe(
