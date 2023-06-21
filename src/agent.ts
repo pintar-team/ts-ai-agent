@@ -634,7 +634,7 @@ export class Agent {
       if (argNames.length !== args.length) {
         throw new Error(`Wrong number of arguments for ${name}, expected ${argNames.length} got ${args.length}`);
       }
-      return fc.func(...args);
+      return fc.func.bind(this)(...args)
     }
 
 

@@ -4,34 +4,13 @@ import { map, mergeMap, toArray, lastValueFrom, catchError, tap } from "rxjs";
 
 import { OpenAIApi, Configuration } from "openai";
 
-import { Agent, AgentPrompt, AgentOptions, AgentInterruptException, AgentRequestBuilder } from "./agent";
+import { Agent, AgentPrompt, AgentOptions, AgentInterruptException, AgentRequestBuilder } from "../src";
 
 
-class SimpleTaskAgent extends Agent {
-    static PROMPT:string = `Agent: Perform a given task and submit your output using the provided function.
-Objective: Your objective is to accurately complete the assigned task and submit the output using the specified function. The task details will be provided separately.
-Instructions:
-1. Read the task instructions carefully and perform the required actions accordingly.
-2. Once you have completed the task, use the provided function to submit your output.
-3. Ensure that your output is formatted correctly to comply with the original input and output format.
-4. Remember to accurately parse the output to maintain the structure for correct script functioning.
-`;
+class TaskAgent extends Agent {
+  static PROMPT:string = 'Agent: Perform a given task';
   constructor(api: OpenAIApi, options: AgentOptions = AgentOptions.DEFAULT) {
-    super(api, AgentPrompt.fromString(SimpleTaskAgent.PROMPT), options);
-    //this.registerFunction(this.submit, "submit", "Call this function to submit the result of the task");
-    //this.registerFunction(this.reject, "reject", "Call this function if you dont want to perform the task");
-  }
-
-
-  //Ai function
-  public submit(output_of_the_task: string): string {
-    //validate if needed
-    return output_of_the_task;
-  }
-
-  //Ai function
-  public reject(result: string): string {
-    throw new AgentInterruptException(`Rejected ${result}`);
+    super(api, AgentPrompt.fromString(TaskAgent.PROMPT), options);
   }
 }
   
@@ -40,7 +19,7 @@ async function test() {
   const api = new OpenAIApi(new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   }));
-  const agent = new SimpleTaskAgent(api, AgentOptions.DEFAULT);
+  const agent = new TaskAgent(api, AgentOptions.DEFAULT);
   try {
     const pipe = AgentRequestBuilder.create<string>(agent).n(2).request('Write a sentence about the moon and bacteria')
       .pipe(
@@ -74,5 +53,5 @@ async function test() {
 }
 
 if (require.main === module) {
-  test();
+    test();
 }
