@@ -281,12 +281,13 @@ export class AgentPrompt {
 
   /**
    * This method prepares the input for the agent. Override this method if customization is necessary.
+   * Creates message(s) from the input with ChatCompletionRequestMessageRoleEnum.User role.
    * 
    * @param input - The input to be prepared for the agent.
    * @param for_functions - An array of function names to be invoked in the input.
-   * @returns A string containing the prepared input.
+   * @returns A string(s) containing the prepared input.
    */
-  protected prepareInput(input: any, for_functions:string[]): string | undefined | null {
+  protected prepareInput(input: any, for_functions:string[]): string | string[] | undefined | null  {
     if (input === undefined || input === null) {
       return '';
     } else if (typeof input === 'object') {
@@ -334,11 +335,18 @@ export class AgentPrompt {
       "role": ChatCompletionRequestMessageRoleEnum.System,
       "content": this.preparePrompt(this.prompt, input, for_functions)
     }]
-    const inputStr = this.prepareInput(input, for_functions);
-    if (inputStr !== undefined && inputStr !== null) {
+    const preparedInput = this.prepareInput(input, for_functions);
+    if (preparedInput instanceof Array) {
+      for (const inputStr of preparedInput) {
+        res.push({
+          "role": ChatCompletionRequestMessageRoleEnum.User,
+          "content": inputStr
+        });
+      }
+    } else if (preparedInput !== undefined && preparedInput !== null) {
       res.push({
         "role": ChatCompletionRequestMessageRoleEnum.User,
-        "content": inputStr
+        "content": preparedInput
       });
     }
     for (const message of this.messages) {
