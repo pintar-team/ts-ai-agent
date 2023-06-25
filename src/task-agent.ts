@@ -4,8 +4,10 @@ import { map, mergeMap, toArray, lastValueFrom, catchError, tap } from "rxjs";
 
 import { OpenAIApi, Configuration } from "openai";
 
-import { Agent, AgentPrompt, AgentOptions, AgentInterruptException, AgentRequestBuilder } from "./agent";
-
+import { Agent, AgentInterruptException } from "./agent";
+import { AgentPrompt } from "./prompt";
+import { AgentOptions } from "./common";
+import { AgentRequestBuilder } from "./agent-request";
 
 class SimpleTaskAgent extends Agent {
     static PROMPT:string = `Agent: Perform a given task and submit your output using the provided function.
