@@ -11,6 +11,7 @@ import {
 export enum Models {
     GPT_3_5_TURBO = "gpt-3.5-turbo-0613", //0613 has function call api
     GPT_4 = "gpt-4-0613", //0613 has function call api
+    GPT_3_5_TURBO_16K = 'gpt-3.5-turbo-16k-0613' //0613 has function call api
   }
   
   /**
@@ -81,6 +82,36 @@ export enum Models {
      * The default AgentOptions object with strong settings.
      */
     public static DEFAULT_STRONG = new AgentOptions(0.8, 0.9, 2048, Models.GPT_4);
+
+    /**
+     * The default AgentOptions object with long settings.
+     */
+    public static DEFAULT_LONG = new AgentOptions(0.8, 0.9, 4096, Models.GPT_3_5_TURBO_16K);
+
+    /**
+     * An AgentOptions object with predictable strong settings.
+     */
+    public static PREDICTABLE_LONG = new AgentOptions(0, 1, 2048, Models.GPT_3_5_TURBO_16K)
+    
+    /**
+     * An AgentOptions object with creative strong settings.
+     */
+    public static CREATIVE_LONG = new AgentOptions(0.8, 0.9, 2048, Models.GPT_3_5_TURBO_16K)
+    
+    /**
+     * An AgentOptions object with conservative strong settings.
+     */
+    public static CONSERVATIVE_LONG = new AgentOptions(0.2, 1, 2048, Models.GPT_3_5_TURBO_16K)
+  
+    /**
+     * An AgentOptions object with exploratory strong settings.
+     */
+    public static EXPLORATORY_LONG = new AgentOptions(0.9, 0.5, 2048, Models.GPT_3_5_TURBO_16K)
+    
+    /**
+     * An AgentOptions object with verbose strong settings.
+     */
+    public static VERBOSE_LONG = new AgentOptions(0.5, 0.5, 4096, Models.GPT_3_5_TURBO_16K)
   
     constructor(
       temperature: number = 0.8,

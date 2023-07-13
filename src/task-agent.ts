@@ -42,7 +42,7 @@ async function test() {
   const api = new OpenAIApi(new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   }));
-  const agent = new SimpleTaskAgent(api, AgentOptions.DEFAULT);
+  const agent = new SimpleTaskAgent(api, AgentOptions.VERBOSE_LONG);
   try {
     const pipe = AgentRequestBuilder.create<string>(agent).n(2).request('Write a sentence about the moon and bacteria')
       .pipe(
