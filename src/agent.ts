@@ -279,9 +279,10 @@ export class Agent {
      * @param {number} n - The number of completions to generate.
      * @param {number} [min] - The minimum number of completions to generate.
      * @param {number} [required] - The number of completions required to complete the request.
+     * @param {number} [max_tokens] - The maximum number of tokens to generate.
      * @returns {Promise<AgentResult<T>>} - A promise that resolves to the generated completions.
      */
-    async requestAnyWith<T>(prompt: AgentPrompt, for_functions: string[], input: any, n: number, min?: number, required?: number): Promise<AgentResult<T>[]> {
+    async requestAnyWith<T>(prompt: AgentPrompt, for_functions: string[], input: any, n: number, min?: number, required?: number, max_tokens?:number): Promise<AgentResult<T>[]> {
       const isFunctionCall = for_functions.length > 0;
       if (required === undefined) {
         required = 1;
@@ -304,6 +305,9 @@ export class Agent {
           n: n,
           messages: prompt.prepareMessages(input, for_functions),
           functions: this.getFunctionCalls().filter((f: ChatCompletionFunctions) => for_functions.includes(f.name))
+        }
+        if (max_tokens !== undefined) {
+          args.max_tokens = max_tokens;
         }
         delete args.model_size;
         if (args.functions.length === 0) {
@@ -378,9 +382,10 @@ export class Agent {
      * @param {number} n - The number of completions to generate.
      * @param {number} [min] - The minimum number of completions to generate.
      * @param {number} [required] - The number of completions required to complete the request.
+     * @param {number} [max_tokens] - The maximum number of tokens to generate.
      * @returns {Promise<AgentResult<T>>} - A promise that resolves to the generated completions.
      */
-    async requestAny<T>(for_functions: string[], input: any, n: number, min?: number, required?: number): Promise<AgentResult<T>[]> {
+    async requestAny<T>(for_functions: string[], input: any, n: number, min?: number, required?: number, max_tokens?:number): Promise<AgentResult<T>[]> {
       return this.requestAnyWith(this.prompt, for_functions, input, n, min, required);
     }
 
@@ -391,9 +396,10 @@ export class Agent {
      * @param {number} n - The number of completions to generate.
      * @param {number} [min] - The minimum number of completions to generate.
      * @param {number} [required] - The number of completions required to complete the request.
+     * @param {number} [max_tokens] - The maximum number of tokens to generate.
      * @returns {Promise<AgentResult<T>>} - A promise that resolves to the generated completions.
      */
-    async request<T>(input: any, n: number, min?: number, required?: number): Promise<AgentResult<T>[]> {
+    async request<T>(input: any, n: number, min?: number, required?: number, max_tokens?:number): Promise<AgentResult<T>[]> {
       return this.requestAny(Object.keys(this.functionCalls), input, n, min, required);
     }
 
@@ -405,9 +411,10 @@ export class Agent {
      * @param {number} n - The number of completions to generate.
      * @param {number} [min] - The minimum number of completions to generate.
      * @param {number} [required] - The number of completions required to complete the request.
+     * @param {number} [max_tokens] - The maximum number of tokens to generate.
      * @returns {Promise<AgentResult<T>>} - A promise that resolves to the generated completions.
      */
-    async requestWith<T>(prompt: AgentPrompt, input: any, n: number, min?: number, required?: number): Promise<AgentResult<T>[]> {
+    async requestWith<T>(prompt: AgentPrompt, input: any, n: number, min?: number, required?: number, max_tokens?:number): Promise<AgentResult<T>[]> {
       return this.requestAnyWith(prompt, Object.keys(this.functionCalls), input, n, min, required);
     }
 
@@ -419,9 +426,10 @@ export class Agent {
      * @param {number} n - The number of completions to generate.
      * @param {number} [min] - The minimum number of completions to generate.
      * @param {number} [required] - The number of completions required to complete the request.
+     * @param {number} [max_tokens] - The maximum number of tokens to generate.
      * @returns {Promise<AgentResult<T>>} - A promise that resolves to the generated completions.
      */
-    async requestFunction<T>(func: string, input: any, n: number, min?: number, required?: number): Promise<AgentResult<T>[]> {
+    async requestFunction<T>(func: string, input: any, n: number, min?: number, required?: number, max_tokens?:number): Promise<AgentResult<T>[]> {
       return this.requestAny([func], input, n, min, required);
     }
 
@@ -434,9 +442,10 @@ export class Agent {
      * @param {number} n - The number of completions to generate.
      * @param {number} [min] - The minimum number of completions to generate.
      * @param {number} [required] - The number of completions required to complete the request.
+     * @param {number} [max_tokens] - The maximum number of tokens to generate.
      * @returns {Promise<AgentResult<T>>} - A promise that resolves to the generated completions.
      */
-    async requestFunctionWith<T>(prompt: AgentPrompt, func: string, input: any, n: number, min?: number, required?: number): Promise<AgentResult<T>[]> {
+    async requestFunctionWith<T>(prompt: AgentPrompt, func: string, input: any, n: number, min?: number, required?: number, max_tokens?:number): Promise<AgentResult<T>[]> {
       return this.requestAnyWith(prompt, [func], input, n, min, required);
     }
 
@@ -449,9 +458,10 @@ export class Agent {
      * @param {number} n - The number of completions to generate.
      * @param {number} [min] - The minimum number of completions to generate.
      * @param {number} [required] - The number of completions required to complete the request.
+     * @param {number} [max_tokens] - The maximum number of tokens to generate.
      * @returns {Promise<AgentResult<string>>} - A promise that resolves to the generated completions as strings.
      */
-    async requestTextWith(prompt: AgentPrompt, input: any, n: number, min?: number, required?: number): Promise<AgentResult<string>[]> {
+    async requestTextWith(prompt: AgentPrompt, input: any, n: number, min?: number, required?: number, max_tokens?:number): Promise<AgentResult<string>[]> {
       return this.requestAnyWith<string>(prompt, [], input, n, min, required);
     }
 
@@ -463,9 +473,10 @@ export class Agent {
      * @param {number} n - The number of completions to generate.
      * @param {number} [min] - The minimum number of completions to generate.
      * @param {number} [required] - The number of completions required to complete the request.
+     * @param {number} [max_tokens] - The maximum number of tokens to generate.
      * @returns {Observable<AgentResult<string>>} - A promise that resolves to the generated completions as strings.
      */
-    async requestText(input: any, n: number, min?: number, required?: number): Promise<AgentResult<string>[]> {
+    async requestText(input: any, n: number, min?: number, required?: number, max_tokens?:number): Promise<AgentResult<string>[]> {
       return this.requestAny<string>([], input, n, min, required);
     }
 }

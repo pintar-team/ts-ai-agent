@@ -17,6 +17,7 @@ export class AgentRequestBuilder<T> {
     private _n: number = 1;
     private _min?: number;
     private _required?: number;
+    private _max_tokens?: number;
   
     /**
      * Creates a new instance of AgentRequestBuilder.
@@ -86,6 +87,18 @@ export class AgentRequestBuilder<T> {
     */
     public required(required: number): AgentRequestBuilder<T> {
       this._required = required;
+      return this;
+    }
+
+
+    /**
+     * Sets the maximum number of tokens to generate for each completion.
+     * 
+     * @param {number} max_tokens - The maximum number of tokens to generate for each completion.
+     * @returns {AgentRequestBuilder<T>} - The current instance of AgentRequestBuilder.
+     */
+    public max_tokens(max_tokens: number): AgentRequestBuilder<T> {
+      this._max_tokens = max_tokens;
       return this;
     }
   
@@ -205,7 +218,7 @@ export class AgentRequestBuilder<T> {
      */
     public request(input: any): Observable<AgentResult<T>> {
       return new Observable<AgentResult<T>>(observer => {
-        this.agent.requestAnyWith<T>(this._prompt, this._functions, input, this._n, this._min, this._required).then(results => {
+        this.agent.requestAnyWith<T>(this._prompt, this._functions, input, this._n, this._min, this._required, this._max_tokens).then(results => {
           results.forEach(result => observer.next(result));
           observer.complete();
         });
@@ -220,7 +233,7 @@ export class AgentRequestBuilder<T> {
      */
     public requestAll(input: any): Observable<AgentResult<T>[]> {
         return new Observable<AgentResult<T>[]>(observer => {
-            this.agent.requestAnyWith<T>(this._prompt, this._functions, input, this._n, this._min, this._required).then(results => {
+            this.agent.requestAnyWith<T>(this._prompt, this._functions, input, this._n, this._min, this._required, this._max_tokens).then(results => {
             observer.next(results);
             observer.complete();
             });
@@ -234,6 +247,6 @@ export class AgentRequestBuilder<T> {
      * @returns {Promise<AgentResult<T>[]>} - A Promise that resolves to an array of all results of the request.
      */
     public async requestPromise(input: any): Promise<AgentResult<T>[]> {
-        return this.agent.requestAnyWith<T>(this._prompt, this._functions, input, this._n, this._min, this._required);
+        return this.agent.requestAnyWith<T>(this._prompt, this._functions, input, this._n, this._min, this._required, this._max_tokens);
     }
   }
