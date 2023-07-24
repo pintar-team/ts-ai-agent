@@ -18,10 +18,10 @@ export enum Models {
    * Represents the options that can be passed to an instance of the `Agent` class.
    */
   export class AgentOptions {
-    model: string = Models.GPT_3_5_TURBO; 
-    temperature: number = 0.8;
-    top_p: number = 0.9;
-    max_tokens: number = 2048;
+    public model: string = Models.GPT_3_5_TURBO; 
+    public temperature: number = 0.8;
+    public top_p: number = 0.9;
+    public max_tokens: number = 2048;
   
     /**
      * The default AgentOptions object.

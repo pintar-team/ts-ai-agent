@@ -211,6 +211,24 @@ export class Agent {
       return Object.keys(this.functionCalls);
     }
 
+    /**
+     * Returns the Options used by the agent for generating text.
+     * 
+     * @returns {AgentOptions} - The options used by the agent.
+     * */
+    getOptions(): AgentOptions {
+      return this.options;
+    }
+
+    /**
+     * Returns the OpenAI API instance used by the agent for generating text.
+     * 
+     * @returns {OpenAIApi} - The OpenAI API instance used by the agent.
+     * */
+    getApi(): OpenAIApi {
+      return this.api;
+    }
+
 
     /**
      * Returns the prompt used by the agent for generating text.

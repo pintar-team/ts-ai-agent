@@ -116,6 +116,15 @@ export class AgentPrompt {
       }
       return res;
     }
+
+    /**
+     * Get Empty Prompt string
+     * prepareMessages with empty input and concat all message content
+    */
+    public getEmptyPrompt(): string {
+      const messages = this.prepareMessages('', []);
+      return messages.map((message) => message.content).join('\n');
+    }
   
   
     /**
