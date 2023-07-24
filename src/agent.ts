@@ -143,6 +143,15 @@ export class AgentInterruptException extends Error {
 }
 
 
+export class AgentApiError extends Error {
+  public error: any;
+  constructor(error: any) {
+    super(error.message);
+    this.error = error;
+    Object.setPrototypeOf(this, new.target.prototype);
+  }
+}
+
 export class AgentResult<T> {
   public value: T;
   public function_result?: AgentFunctionResult;
@@ -296,6 +305,7 @@ export class Agent {
           messages: prompt.prepareMessages(input, for_functions),
           functions: this.getFunctionCalls().filter((f: ChatCompletionFunctions) => for_functions.includes(f.name))
         }
+        delete args.model_size;
         if (args.functions.length === 0) {
           delete args.functions;
         }
@@ -351,6 +361,9 @@ export class Agent {
       } catch (e) {
         if (e instanceof AgentInterruptException) {
           throw e;
+        }
+        if (e?.response?.data?.error) {
+          throw new AgentApiError(e.response.data.error);
         }
         throw new Error(`Failed to generate completions: ${e.message}`);
       }

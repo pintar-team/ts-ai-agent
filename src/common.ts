@@ -8,10 +8,17 @@ import {
 /**
  * Enum containing the available OpenAI models.
  */
-export enum Models {
+  export enum Models {
     GPT_3_5_TURBO = "gpt-3.5-turbo-0613", //0613 has function call api
     GPT_4 = "gpt-4-0613", //0613 has function call api
     GPT_3_5_TURBO_16K = 'gpt-3.5-turbo-16k-0613' //0613 has function call api
+  }
+
+
+  const model_sizes = {
+    [Models.GPT_3_5_TURBO]: 4096,
+    [Models.GPT_4]: 8192,
+    [Models.GPT_3_5_TURBO_16K]: 16384
   }
   
   /**
@@ -22,12 +29,13 @@ export enum Models {
     public temperature: number = 0.8;
     public top_p: number = 0.9;
     public max_tokens: number = 2048;
-  
+    public model_size: number = model_sizes[this.model];
+
     /**
      * The default AgentOptions object.
      */
     public static DEFAULT = new AgentOptions();
-  
+
     /**
      * An AgentOptions object with predictable settings.
      */
@@ -42,7 +50,7 @@ export enum Models {
      * An AgentOptions object with conservative settings.
      */
     public static CONSERVATIVE = new AgentOptions(0.2, 1, 2048);
-  
+
     /**
      * An AgentOptions object with exploratory settings.
      */
@@ -52,7 +60,7 @@ export enum Models {
      * An AgentOptions object with verbose settings.
      */
     public static VERBOSE = new AgentOptions(0.5, 0.5, 4096);
-  
+
     /**
      * An AgentOptions object with predictable strong settings.
      */
@@ -67,7 +75,7 @@ export enum Models {
      * An AgentOptions object with conservative strong settings.
      */
     public static CONSERVATIVE_STRONG = new AgentOptions(0.2, 1, 2048, Models.GPT_4)
-  
+
     /**
      * An AgentOptions object with exploratory strong settings.
      */
@@ -77,7 +85,7 @@ export enum Models {
      * An AgentOptions object with verbose strong settings.
      */
     public static VERBOSE_STRONG = new AgentOptions(0.5, 0.5, 4096, Models.GPT_4)
-  
+
     /**
      * The default AgentOptions object with strong settings.
      */
@@ -102,7 +110,7 @@ export enum Models {
      * An AgentOptions object with conservative strong settings.
      */
     public static CONSERVATIVE_LONG = new AgentOptions(0.2, 1, 2048, Models.GPT_3_5_TURBO_16K)
-  
+
     /**
      * An AgentOptions object with exploratory strong settings.
      */
@@ -112,7 +120,7 @@ export enum Models {
      * An AgentOptions object with verbose strong settings.
      */
     public static VERBOSE_LONG = new AgentOptions(0.5, 0.5, 4096, Models.GPT_3_5_TURBO_16K)
-  
+
     constructor(
       temperature: number = 0.8,
       top_p: number = 0.9,
@@ -123,8 +131,9 @@ export enum Models {
       this.top_p = top_p;
       this.max_tokens = max_tokens;
       this.model = model;
+      this.model_size = model_sizes[this.model];
     }
-  
+
     copy(): AgentOptions {
       return new AgentOptions(
         this.temperature,
@@ -133,25 +142,25 @@ export enum Models {
         this.model
       );
     }
-  
+
     adjust_temperature(temperature: number): AgentOptions {
       const options = this.copy();
       options.temperature = temperature;
       return options;
     }
-  
+
     adjust_top_p(top_p: number): AgentOptions {
       const options = this.copy();
       options.top_p = top_p;
       return options;
     }
-  
+
     adjust_max_tokens(max_tokens: number): AgentOptions {
       const options = this.copy();
       options.max_tokens = max_tokens;
       return options;
     }
-  
+
     adjust_model(model: string): AgentOptions {
       const options = this.copy();
       options.model = model;
