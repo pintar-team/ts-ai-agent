@@ -270,6 +270,15 @@ export class Agent {
     }
 
 
+    protected processTextResult<T>(text: string, for_functions: string[]): AgentResult<T> {
+      const isFunctionCall = for_functions.length > 0;
+      if (!isFunctionCall) {
+        return new AgentResult<T>(text as T, null);
+      }
+      return null
+    }
+
+
     /**
      * Requests any number of completions from the agent, using the specified functions and prompt.
      * 
@@ -347,11 +356,14 @@ export class Agent {
               }
               error = e;
             }
-          } else if (!isFunctionCall) {
-            results.push(new AgentResult<T>(choice.message.content as T, null));
-            processed++;
-            if (min !== undefined && processed >= min) {
-              break;
+          } else {
+            const res = this.processTextResult<T>(choice.message.content, for_functions);
+            if (res) {
+              results.push(res);
+              processed++;
+              if (min !== undefined && processed >= min) {
+                break;
+              }
             }
           }
         }

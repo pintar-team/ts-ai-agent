@@ -1,5 +1,5 @@
 import { OpenAIApi, Configuration } from "openai";
-import { Agent, AgentPrompt, AgentOptions, AgentInterruptException, AgentRequestBuilder } from "../src";
+import { Agent, AgentPrompt, AgentOptions, AgentInterruptException, AgentRequestBuilder, AgentResult } from "../src";
 import {  map, lastValueFrom } from "rxjs";
 
 class FunctionAgent extends Agent {

@@ -4,13 +4,18 @@ import { map, mergeMap, toArray, lastValueFrom, catchError, tap } from "rxjs";
 
 import { OpenAIApi, Configuration } from "openai";
 
-import { Agent, AgentPrompt, AgentOptions, AgentInterruptException, AgentRequestBuilder } from "../src";
+import { Agent, AgentPrompt, AgentOptions, AgentInterruptException, AgentRequestBuilder, AgentResult } from "../src";
 
 
 class TaskAgent extends Agent {
   static PROMPT:string = 'Agent: Perform a given task';
   constructor(api: OpenAIApi, options: AgentOptions = AgentOptions.DEFAULT) {
     super(api, AgentPrompt.fromString(TaskAgent.PROMPT), options);
+  }
+
+  protected override processTextResult<T>(text: string, for_functions: string[]): AgentResult<T> {
+    console.log(`Processing text result: ${text}`);
+    return super.processTextResult<T>(text, for_functions);
   }
 }
   
