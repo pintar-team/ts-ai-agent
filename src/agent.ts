@@ -108,12 +108,12 @@ export class AgentFunctionCall implements ChatCompletionFunctions {
     if (description) {
       fc.description = description;
     }
+    fc.parameters = {
+        type: "object",
+        properties: {},
+        required: [],
+    } as any;
     if (rf.parameters.length > 0) {
-        fc.parameters = {
-            type: "object",
-            properties: {},
-            required: [],
-        } as any;
         for (const p of rf.parameters) {
             const prop = AgentFunctionCall.propFromType(p.type, name);
             fc.parameters.properties[p.name] = prop;
