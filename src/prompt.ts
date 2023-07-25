@@ -64,21 +64,6 @@ export class AgentPrompt {
     }
   
     /**
-     * This method prepares the terminal prompt for the agent. Override this method if customization is necessary.
-     * 
-     * @param input - The input to be prepared for the agent.
-     * @param for_functions - An array of function names to be invoked in the input.
-     * @returns A string containing the prepared terminal prompt.
-     */
-    protected prepareTerminalPrompt(input: any, for_functions:string[]): string | undefined | null {
-      if (for_functions.length > 0) {
-        return "The next message should exclusively invoke the function.";
-      } else {
-        return null;
-      }
-    }
-  
-    /**
      * This method prepares the messages for the agent. Override this method if customization is necessary.
      * 
      * @param input - The input to be prepared for the agent.
@@ -106,13 +91,6 @@ export class AgentPrompt {
       }
       for (const message of this.messages) {
         res.push(message);
-      }
-      const terminalPrompt = this.prepareTerminalPrompt(input, for_functions);
-      if (terminalPrompt !== undefined && terminalPrompt !== null) {
-        res.push({
-          "role": ChatCompletionRequestMessageRoleEnum.System,
-          "content": terminalPrompt
-        });
       }
       return res;
     }
