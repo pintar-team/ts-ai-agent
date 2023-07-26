@@ -357,13 +357,20 @@ export class Agent {
               error = e;
             }
           } else {
-            const res = this.processTextResult<T>(choice.message.content, for_functions);
-            if (res) {
-              results.push(res);
-              processed++;
-              if (min !== undefined && processed >= min) {
-                break;
+            try {
+              const res = this.processTextResult<T>(choice.message.content, for_functions);
+              if (res) {
+                results.push(res);
+                processed++;
+                if (min !== undefined && processed >= min) {
+                  break;
+                }
               }
+            } catch (e) {
+              if (e instanceof AgentInterruptException) {
+                throw e;
+              }
+              error = e;
             }
           }
         }
