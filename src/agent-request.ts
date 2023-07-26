@@ -221,6 +221,8 @@ export class AgentRequestBuilder<T> {
         this.agent.requestAnyWith<T>(this._prompt, this._functions, input, this._n, this._min, this._required, this._max_tokens).then(results => {
           results.forEach(result => observer.next(result));
           observer.complete();
+        }).catch(error => {
+          observer.error(error);
         });
       });
     }
@@ -234,8 +236,10 @@ export class AgentRequestBuilder<T> {
     public requestAll(input: any): Observable<AgentResult<T>[]> {
         return new Observable<AgentResult<T>[]>(observer => {
             this.agent.requestAnyWith<T>(this._prompt, this._functions, input, this._n, this._min, this._required, this._max_tokens).then(results => {
-            observer.next(results);
-            observer.complete();
+              observer.next(results);
+              observer.complete();
+            }).catch(error => {
+              observer.error(error);
             });
         });
     }

@@ -292,7 +292,6 @@ export class Agent {
      * @returns {Promise<AgentResult<T>>} - A promise that resolves to the generated completions.
      */
     async requestAnyWith<T>(prompt: AgentPrompt, for_functions: string[], input: any, n: number, min?: number, required?: number, max_tokens?:number): Promise<AgentResult<T>[]> {
-      const isFunctionCall = for_functions.length > 0;
       if (required === undefined) {
         required = 1;
       }
